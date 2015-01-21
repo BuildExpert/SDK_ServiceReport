@@ -1,0 +1,44 @@
+<apex:page standardController="CKSW_BASE__Service__c" extensions="SDK_ServiceReportExtention" showHeader="true" sidebar="true">
+    <div style='page-break-after: always;'></div> <!-- new page break here -->
+    <apex:pageBlock >
+        <apex:pageBlockSection title="Map" columns="1" >  <!-- show map-->
+                <apex:image value="{!StaticMapPath}" />
+                <apex:outputLabel value="Service geolocation is missing" rendered="{!(ISNULL(StaticMapPath))}" ></apex:outputLabel>
+        </apex:pageBlockSection>
+    </apex:pageBlock> 
+    <apex:pageBlock >
+        <apex:pageBlockSection title="Account Info" columns="2" > <!-- show related account info -->
+            <apex:outputField value="{!Account.Name}"/>
+            <apex:outputField value="{!Account.Phone}"/>
+            <apex:outputField value="{!Account.Fax}"/>
+            <apex:outputField value="{!Account.Industry}"/>
+            <apex:outputField value="{!Account.Type}"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    <apex:pageBlock >
+    <apex:pageBlockSection title="Parts" columns="2" rendered="{!NOT(ISNULL(ProductsUsed))}" > <!-- show parts used in service-->
+        <apex:repeat value="{!ProductsUsed}" var="pu" >
+             <apex:outputField value="{!pu.CKSW_BASE__Product__r.Name}"/>
+             <apex:outputField value="{!pu.CKSW_BASE__Quantity_Used__c}"/>
+        </apex:repeat>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    <apex:pageblock >
+        <apex:pageBlockSection title="Related Skills" columns="1" rendered="{!NOT(ISNULL(skills))}" >  <!-- show related skills-->
+            <apex:pageBlockTable value="{!skills}" var="s" >
+                <apex:column value="{!s.CKSW_BASE__Skill__r.Name}"/>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+    </apex:pageblock>
+    <apex:pageblock >
+        <apex:pageBlockSection title="Related Opportunities" columns="1" rendered="{!NOT(ISNULL(opps))}" >  <!-- show related opportunities -->
+            <apex:pageBlockTable value="{!opps}" var="o" >
+                <apex:column value="{!o.Name}"/>
+                <apex:column value="{!o.Type}"/>
+                <apex:column value="{!o.Amount}"/>
+                <apex:column value="{!o.CloseDate}"/>
+            </apex:pageBlockTable>
+        </apex:pageBlockSection>
+        <apex:outputLabel value="No records to display" rendered="{!(ISNULL(opps))}" ></apex:outputLabel>
+    </apex:pageblock>
+</apex:page>
